@@ -61,9 +61,12 @@ proc createSourcePointCloud { entsVar } {
       set cloud [pw::SourcePointCloud create]
       $cloud setName "[$ent getName]_pointCloud"
       # add the source points
-      for { set i 1 } { $i < [$ent getPointCount] } { incr i } {
-        $cloud addPoint [$ent getXYZ $i] $::spacing $::decay
+      set srcPts [list]
+      set numPts [$ent getPointCount]
+      for {set i 1} {$i <= $numPts} {incr i} {
+        lappend srcPts [list [$ent getXYZ $i] $::spacing $::decay]
       }
+      $cloud addPoints $srcPts
     }
   }
 }
